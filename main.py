@@ -30,6 +30,18 @@ import os
 WORD = "calculator"
 
 
+def validate_output(written: str) -> None:
+    """Read-back check: the file must hold exactly the chosen word.
+
+    Grandma files every new machine under the one she already knows —
+    the pocket calculator on her kitchen table — so the word is fixed
+    and the output must be byte-identical to it: 10 letters, no newline.
+    """
+    assert written == WORD, "entry.txt does not match WORD"
+    assert len(written) == 10, f"word must be 10 chars, got {len(written)}"
+    assert written.count("\n") == 0, "entry.txt must contain no newline"
+
+
 def main() -> int:
     # The grader collects outputs as another user, so outputs must be
     # world-readable (known issue: a 0600 file fails collection).
@@ -53,6 +65,7 @@ def main() -> int:
         raw = f.read()
     if raw.decode("utf-8") != WORD:
         raise SystemExit("written bytes differ from the word")
+    validate_output(raw.decode("utf-8"))
     return 0
 
 
